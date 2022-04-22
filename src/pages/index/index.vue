@@ -57,7 +57,9 @@ import {reactive, toRefs} from 'vue';
 import { useForm } from '@ant-design-vue/use';
 import {market} from '@/api';
 import {useRouter} from 'vue-router';
-import { message } from 'ant-design-vue';
+import {project} from "@/api";
+
+// import { message } from 'ant-design-vue';
 
 export default {
   setup() {
@@ -100,38 +102,38 @@ export default {
     const router = useRouter();
     const createPage = () => {
       validate().then(async () => {
-        message.info('由于权限管控暂未完成，暂不支持新增页面，请前往工作台体验先有页面！');
-        setTimeout(() => {
-            router.push({
-              path: '/dashboard',
-            })
-        }, 2000);
-        // state.creating = true;
-        // try {
-        //   const data = await project.createProject({
-        //     pageConfig: {
-        //       config: {
-        //         templateId: state.pageInfo.id,
-        //         templateGit: state.pageInfo.gitUrl,
-        //         templateName: state.pageInfo.name,
-        //         projectName: pageState.projectName || '未命名的页面',
-        //         gitName: pageState.gitName,
-        //         templateVersion: state.pageInfo.version,
-        //       },
-        //       userSelectComponents: [],
-        //       components: [],
-        //     }
-        //   });
-        //   state.creating = false;
-        //   router.push({
-        //     path: '/edit',
-        //     query: {
-        //       id: data.result.id,
-        //     }
-        //   })
-        // } catch (e) {
-        //   state.creating = false;
-        // }
+        // message.info('由于权限管控暂未完成，暂不支持新增页面，请前往工作台体验先有页面！');
+        // setTimeout(() => {
+        //     router.push({
+        //       path: '/dashboard',
+        //     })
+        // }, 2000);
+        state.creating = true;
+        try {
+          const data = await project.createProject({
+            pageConfig: {
+              config: {
+                templateId: state.pageInfo.id,
+                templateGit: state.pageInfo.gitUrl,
+                templateName: state.pageInfo.name,
+                projectName: pageState.projectName || '未命名的页面',
+                gitName: pageState.gitName,
+                templateVersion: state.pageInfo.version,
+              },
+              userSelectComponents: [],
+              components: [],
+            }
+          });
+          state.creating = false;
+          router.push({
+            path: '/edit',
+            query: {
+              id: data.result.id,
+            }
+          })
+        } catch (e) {
+          state.creating = false;
+        }
       });
     }
     const { resetFields, validate, validateInfos } = useForm(pageState, rulesRef);
