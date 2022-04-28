@@ -54,12 +54,13 @@
 <script>
 import Header from '@/components/header';
 import {reactive, toRefs} from 'vue';
-import { useForm } from '@ant-design-vue/use';
+import { Form } from 'ant-design-vue';
 import {market} from '@/api';
 import {useRouter} from 'vue-router';
 import {project} from "@/api";
 
 // import { message } from 'ant-design-vue';
+const useForm = Form.useForm;
 
 export default {
   setup() {
